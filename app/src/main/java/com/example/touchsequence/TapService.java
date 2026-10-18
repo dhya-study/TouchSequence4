@@ -29,7 +29,7 @@ public class TapService extends AccessibilityService {
     private View controls;
     private boolean running=false;
     private int index=0,finished=0,delay=500,pause=1000,loops=0,sizeDp=36;
-    private final int[] sequence={0,1,0,1,0,1,0,1,2};
+    private final int[] sequence={0,1,2};
     @Override protected void onServiceConnected(){super.onServiceConnected();instance=this;wm=(WindowManager)getSystemService(WINDOW_SERVICE);}
     @Override public void onAccessibilityEvent(AccessibilityEvent e){}
     @Override public void onInterrupt(){stop();}
