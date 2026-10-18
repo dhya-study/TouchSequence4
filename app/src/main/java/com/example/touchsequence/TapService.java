@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 public class TapService extends AccessibilityService {
     static TapService instance;
+    private static final int COUNT=4;
     private WindowManager wm;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private final ArrayList<View> overlays=new ArrayList<>();
@@ -29,7 +30,7 @@ public class TapService extends AccessibilityService {
     private View controls;
     private boolean running=false;
     private int index=0,finished=0,delay=500,pause=1000,loops=0,sizeDp=36;
-    private final int[] sequence={0,1,2};
+    private final int[] sequence={0,1,2,3};
     @Override protected void onServiceConnected(){super.onServiceConnected();instance=this;wm=(WindowManager)getSystemService(WINDOW_SERVICE);}
     @Override public void onAccessibilityEvent(AccessibilityEvent e){}
     @Override public void onInterrupt(){stop();}
@@ -49,10 +50,10 @@ public class TapService extends AccessibilityService {
         delay=pref.getInt("delay",500);pause=pref.getInt("pause",1000);loops=pref.getInt("loops",0);sizeDp=pref.getInt("size",36);
         android.util.DisplayMetrics dm=new android.util.DisplayMetrics();wm.getDefaultDisplay().getRealMetrics(dm);
         final int width=dm.widthPixels,height=dm.heightPixels,sz=dp(sizeDp);
-        for(int i=0;i<3;i++){
+        for(int i=0;i<COUNT;i++){
             final int target=i;
             TextView circle=new TextView(this);circle.setGravity(Gravity.CENTER);circle.setText(""+(i+1));circle.setTextColor(Color.WHITE);circle.setTextSize(Math.max(9,sizeDp*0.38f));
-            circle.setBackground(bg(new int[]{0xFF2666DA,0xFF009688,0xFFEF6C00}[i]));
+            circle.setBackground(bg(new int[]{0xFF2666DA,0xFF009688,0xFFEF6C00,0xFF8E24AA}[i]));
             int x=Math.min(width-sz,dp(30+i*(sizeDp+12)));int y=Math.min(height-sz,dp(240));
             WindowManager.LayoutParams p=lp(sz,sz,x,y);
             circle.setOnTouchListener(new View.OnTouchListener(){float startX,startY;int startPx,startPy;
@@ -70,7 +71,7 @@ public class TapService extends AccessibilityService {
         Button close=new Button(this);close.setText("닫기");bar.addView(close);close.setOnClickListener(v->hideOverlays());
         WindowManager.LayoutParams cp=lp(dp(210),dp(65),Math.max(0,(width-dp(210))/2),Math.max(0,height-dp(65)-dp(110)));wm.addView(bar,cp);controls=bar;
     }
-    private void start(){if(overlays.size()!=3)return;running=true;index=0;finished=0;
+    private void start(){if(overlays.size()!=COUNT)return;running=true;index=0;finished=0;
         for(int i=0;i<overlays.size();i++){
             WindowManager.LayoutParams p=params.get(i);
             p.flags|=WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
@@ -84,7 +85,7 @@ public class TapService extends AccessibilityService {
             try{wm.updateViewLayout(overlays.get(i),p);}catch(Exception ignored){}
         }
     }
-    private void next(){if(!running||overlays.size()!=3)return;
+    private void next(){if(!running||overlays.size()!=COUNT)return;
         int id=sequence[index];WindowManager.LayoutParams p=params.get(id);
         float x=p.x+dp(sizeDp)/2f,y=p.y+dp(sizeDp)/2f;
         Path path=new Path();path.moveTo(x,y);

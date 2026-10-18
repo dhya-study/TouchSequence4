@@ -19,9 +19,9 @@ public class MainActivity extends Activity {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL); root.setPadding(36,40,36,20); root.setBackgroundColor(Color.WHITE);
         TextView heading = new TextView(this); heading.setText("터치 순서 4"); heading.setTextSize(26); heading.setTextColor(Color.BLACK);root.addView(heading);
-        info(root,"클릭 순서: ① → ② → ③ 을 순서대로 반복\n\n사용법: 접근성 권한을 켠 뒤 '클릭 위치 표시'를 누르고 원하는 앱을 여세요. 떠 있는 ①②③ 동그라미를 눌러 이동한 다음 시작을 누르세요.");
+        info(root,"클릭 순서: ① → ② → ③ → ④ 반복\n\n사용법: 접근성 권한을 켠 뒤 '클릭 위치 표시'를 누르고 원하는 앱을 여세요. 떠 있는 ①②③④ 동그라미를 눌러 이동한 다음 시작을 누르세요.");
         delay=field(root,"각 클릭 후 대기 시간 (밀리초, 예: 500)","500");
-        pause=field(root,"①②③ 한 바퀴 완료 후 대기 (밀리초, 예: 1000)","1000");
+        pause=field(root,"한 바퀴(①②③④) 완료 후 대기 (밀리초, 예: 1000)","1000");
         loops=field(root,"전체 반복 횟수 (0 = 무한 반복)","0");
         size=field(root,"표시 원 크기 (dp, 20~80, 기본 36)","36");
         addButton(root,"1. 접근성 서비스 켜기",()->startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
