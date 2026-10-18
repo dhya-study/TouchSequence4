@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.text.InputType;
 
 public class MainActivity extends Activity {
-    private EditText delay, pause, loops;
+    private EditText delay, pause, loops, size;
     @Override public void onCreate(Bundle b) {
         super.onCreate(b);
         LinearLayout root = new LinearLayout(this);
@@ -23,9 +23,10 @@ public class MainActivity extends Activity {
         delay=field(root,"각 클릭 후 대기 시간 (밀리초, 예: 500)","500");
         pause=field(root,"한 묶음 완료 후 대기 (밀리초, 예: 1000)","1000");
         loops=field(root,"전체 반복 횟수 (0 = 무한 반복)","0");
+        size=field(root,"표시 원 크기 (dp, 20~80, 기본 36)","36");
         addButton(root,"1. 접근성 서비스 켜기",()->startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)));
         addButton(root,"2. 클릭 위치 표시 / 설정 적용",()->{
-            getPreferences(MODE_PRIVATE).edit().putInt("delay",num(delay,500,50,60000)).putInt("pause",num(pause,1000,0,600000)).putInt("loops",num(loops,0,0,100000)).apply();
+            getPreferences(MODE_PRIVATE).edit().putInt("delay",num(delay,500,50,60000)).putInt("pause",num(pause,1000,0,600000)).putInt("loops",num(loops,0,0,100000)).putInt("size",num(size,36,20,80)).apply();
             if(TapService.instance!=null) TapService.instance.showOverlays();
             else infoDialog("접근성 설정에서 '터치 순서 4' 서비스를 먼저 활성화하세요.");
         });
